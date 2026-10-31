@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Blood Donors - OneDrop AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>🩸 Find Blood Donors</h1>
+        <p>OneDrop AI — Connecting people who need blood with potential donors</p>
+    </header>
+
+    <div class="container">
+        <h2>Search for Potential Donors</h2>
+
+        <form action="/search" method="POST">
+            <label for="blood_group">Blood Group:</label><br>
+            <select id="blood_group" name="blood_group" required>
+                <option value="">Select blood group</option>
+                <option>A+</option>
+                <option>A-</option>
+                <option>B+</option>
+                <option>B-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+                <option>O+</option>
+                <option>O-</option>
+            </select><br><br>
+
+            <label for="city">City:</label><br>
+            <input id="city" type="text" name="city" required><br><br>
+
+            <button type="submit">Search Donors</button>
+        </form>
+
+        {% if donors is not none %}
+            {% if donors %}
+                <h2>Potential Matches</h2>
+                {% for donor in donors %}
+                    <div>
+                        <p><strong>Name:</strong> {{ donor['name'] }}</p>
+                        <p><strong>Blood Group:</strong> {{ donor['blood_group'] }}</p>
+                        <p><strong>City:</strong> {{ donor['city'] }}</p>
+                        <hr>
+                    </div>
+                {% endfor %}
+            {% elif request.method == 'POST' %}
+                <p>No matching registered donors were found.</p>
+            {% endif %}
+        {% endif %}
+
+        <p><a href="/">Back to Home</a></p>
+
+        <p><small>Results show registered potential donors only. Availability and eligibility must be confirmed directly with the donor and an authorized blood bank.</small></p>
+    </div>
+
+</body>
+</html>
